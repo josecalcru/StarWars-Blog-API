@@ -64,15 +64,15 @@ def add_user():
     db.session.add(user)
     db.session.commit()
    
-    return jsonify({"Respuesta":"Los datos se almacenaron satisfactoriamente"}), 200
+    return jsonify({"Result":"successful"}), 200
 
 
 @app.route('/user/<int:user_id>', methods=['PUT'])
 def update_user(user_id):
     
     user = User.query.get(user_id)
-    if user is None:
-        raise APIException('User not found', status_code=404)
+    if not user:
+        raise APIException('Cannot find user', status_code=404)
 
     request_body = request.get_json()
     if "fullName" in request_body:
@@ -85,19 +85,19 @@ def update_user(user_id):
         user.is_active = request_body["is_active"]
     db.session.commit()
    
-    return jsonify({"Respuesta":"Los datos se modificaron satisfactoriamente"}), 200
+    return jsonify({"Update":"successful"}), 200
 
 @app.route('/user/<int:user_id>', methods=['DELETE'])
 def del_user(user_id):
     
     user = User.query.get(user_id)
-    if user is None:
+    if not user:
         raise APIException('User not found', status_code=404)
 
     db.session.delete(user)
     db.session.commit()
    
-    return jsonify({"Respuesta":"Los datos se eliminaron satisfactoriamente"}), 200
+    return jsonify({"Delete":"successful"}), 200
   # End user endpoints ------------------------
 
 
